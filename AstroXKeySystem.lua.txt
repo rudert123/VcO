@@ -96,11 +96,11 @@ CheckKeyCorner.CornerRadius = UDim.new(0, 5)
 CheckKeyCorner.Parent = CheckKey
 
 GetKey.MouseButton1Click:Connect(function()
-    setclipboard("https://link-center.net/1175090/pitbullhub-system-key1")
+    setclipboard("TesterIn")
 end)
 
 local function validateKey(key)
-    return game:HttpGet("https://rentry.co/dng3gthg/raw") == key
+    return TesterIn == key
 end
 
 CheckKey.MouseButton1Click:Connect(function()
