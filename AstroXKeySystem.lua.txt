@@ -645,15 +645,14 @@ local Tab7 = Windows:NewTab({
 })
 
 -- Home Tab Content
-Tab:Label({
-    Text = "Join our discord."
-})
+Tab:NewTitle('Rudert')
 
-Tab:Label({
-    Text = "Creators G - MX2 and Alexisback."
+Tab:NewButton({
+	Title = "Discord",
+	Callback = function()
+		print('discord.gg/BH6pE7jesa')
+	end,
 })
-
-Tab:Line()
 
 Tab:Button({
     Title = "Copy link discord",
