@@ -604,31 +604,41 @@ local Windows = NothingLibrary.new({
 	Logo = 'http://www.roblox.com/asset/?id=18898582662'
 })
 
-
-
 -- Tab Definitions
-local Tab = Window:Tab({
-    Title = "Home"
+local Tab = Windows:NewTab({
+	Title = "Home",
+	Description = "The main tab containing basic information or the main menu.",
+	Icon = "rbxassetid://7733960981"
 })
 
-local Tab2 = Window:Tab({
-    Title = "Player"
+local Tab2 = Windows:NewTab({
+	Title = "Player",
+	Description = "A tab for settings or information related to the player.",
+	Icon = "rbxassetid://7733960981"
 })
 
-local Tab3 = Window:Tab({
-    Title = "Main"
+local Tab3 = Windows:NewTab({
+	Title = "Main",
+	Description = "The main tab for core game functions.",
+	Icon = "rbxassetid://7733960981"
 })
 
-local Tab4 = Window:Tab({
-    Title = "Combat"
+local Tab4 = Windows:NewTab({
+	Title = "Combat",
+	Description = "A tab for combat features or settings.",
+	Icon = "rbxassetid://7733960981"
 })
 
-local Tab5 = Window:Tab({
-    Title = "Shop"
+local Tab5 = Windows:NewTab({
+	Title = "Shop",
+	Description = "A tab to access in-game shop features.",
+	Icon = "rbxassetid://7733960981"
 })
 
-local Tab7 = Window:Tab({
-    Title = "Settings"
+local Tab7 = Windows:NewTab({
+	Title = "Settings",
+	Description = "A tab for configuring game settings.",
+	Icon = "rbxassetid://7733960981"
 })
 
 -- Home Tab Content
