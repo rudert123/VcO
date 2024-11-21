@@ -609,8 +609,8 @@ local Windows = NothingLibrary.new({
 
 -- Tab Definitions
 local Tab = Windows:NewTab({
-	Title = "Home",
-	Description = "The main tab containing basic information or the main menu.",
+	Title = "Unknown...",
+	Description = "...",
 	Icon = "rbxassetid://7733960981"
 })
 
@@ -642,23 +642,6 @@ local Tab7 = Windows:NewTab({
 	Title = "Settings",
 	Description = "A tab for configuring game settings.",
 	Icon = "rbxassetid://7733960981"
-})
-
--- Home Tab Content
-Tab:NewTitle('Rudert')
-
-Tab:NewButton({
-	Title = "Discord",
-	Callback = function()
-		print('discord.gg/BH6pE7jesa')
-	end,
-})
-
-Tab:Button({
-    Title = "Copy link discord",
-    Callback = function()
-        setclipboard(Key2)
-    end
 })
 
 -- Player Tab Content
