@@ -588,7 +588,6 @@ end)
 
 local NothingLibrary = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua'))()
 
-local Title1 = "AstroX"
 local Key2 = "https://discord.gg/yZTduXkhMn"
 
 local MarketplaceService = game:GetService("MarketplaceService")
@@ -598,10 +597,14 @@ end)
 
 local gameName = success and gameInfo.Name or "Unknown Game"
 
-local Window = NothingLibrary:Window({
-    Title = Title1,
-    Description = gameName
+local Windows = NothingLibrary.new({
+	Title = "NOTHING",
+	Description = "Info, gameName",
+	Keybind = Enum.KeyCode.LeftControl,
+	Logo = 'http://www.roblox.com/asset/?id=18898582662'
 })
+
+
 
 -- Tab Definitions
 local Tab = Window:Tab({
