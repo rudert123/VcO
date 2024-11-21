@@ -628,6 +628,8 @@ spawn(function()
     end
 end)
 
+local NothingLibrary = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua'))()
+
 local Title1 = "AstroX"
 local Key2 = "https://discord.gg/yZTduXkhMn"
 
@@ -638,119 +640,218 @@ end)
 
 local gameName = success and gameInfo.Name or "Unknown Game"
 
-local Window = AstroXUI:Window(Title1, gameName)
+local Window = NothingLibrary:Window({
+    Title = Title1,
+    Description = gameName
+})
 
-local Tab = Window:Tab("Home")
-local Tab2 = Window:Tab("Player")
-local Tab3 = Window:Tab("Main")
-local Tab4 = Window:Tab("Combat")
-local Tab5 = Window:Tab("Shop")
-local Tab7 = Window:Tab("Settings")
+-- Tab Definitions
+local Tab = Window:Tab({
+    Title = "Home"
+})
 
-Tab:Label("Join our discord.")
-Tab:Label("Creators G - MX2 and Alexisback.")
-Tab:line()
-Tab:Button("Copy link discord", function()
-    setclipboard(Key2)
-end)
+local Tab2 = Window:Tab({
+    Title = "Player"
+})
 
+local Tab3 = Window:Tab({
+    Title = "Main"
+})
+
+local Tab4 = Window:Tab({
+    Title = "Combat"
+})
+
+local Tab5 = Window:Tab({
+    Title = "Shop"
+})
+
+local Tab7 = Window:Tab({
+    Title = "Settings"
+})
+
+-- Home Tab Content
+Tab:Label({
+    Text = "Join our discord."
+})
+
+Tab:Label({
+    Text = "Creators G - MX2 and Alexisback."
+})
+
+Tab:Line()
+
+Tab:Button({
+    Title = "Copy link discord",
+    Callback = function()
+        setclipboard(Key2)
+    end
+})
+
+-- Player Tab Content
 getgenv().Walkspeed = 36
 getgenv().FOV = 70
 getgenv().loopW = false
 getgenv().loopFOV = false
 
-Tab2:Slider("Speed", 0, 1000, 36, function(value)
-    getgenv().Walkspeed = value
-    pcall(function()
-        local player = game:GetService("Players").LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("Humanoid") then
-            player.Character.Humanoid.WalkSpeed = value
-        end
-    end)
-end)
-
-Tab2:Slider("Fov", 0, 1000, 70, function(value)
-    getgenv().FOV = value
-    pcall(function()
-        game:GetService("Workspace").Camera.FieldOfView = value
-    end)
-end)
-
-Tab2:line()
-
-Tab2:Toggle("Loop Speed", false, function(state)
-    getgenv().loopW = state
-    if state then
-        loopWConnection = game:GetService("RunService").Heartbeat:Connect(function()
-            pcall(function()
-                local player = game:GetService("Players").LocalPlayer
-                if player and player.Character and player.Character:FindFirstChild("Humanoid") then
-                    player.Character.Humanoid.WalkSpeed = getgenv().Walkspeed
-                end
-            end)
+Tab2:Slider({
+    Title = "Speed",
+    Min = 0,
+    Max = 1000,
+    Default = 36,
+    Callback = function(value)
+        getgenv().Walkspeed = value
+        pcall(function()
+            local player = game:GetService("Players").LocalPlayer
+            if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+                player.Character.Humanoid.WalkSpeed = value
+            end
         end)
-    else
-        if loopWConnection then
-            loopWConnection:Disconnect()
+    end
+})
+
+Tab2:Slider({
+    Title = "Fov",
+    Min = 0,
+    Max = 1000,
+    Default = 70,
+    Callback = function(value)
+        getgenv().FOV = value
+        pcall(function()
+            game:GetService("Workspace").Camera.FieldOfView = value
+        end)
+    end
+})
+
+Tab2:Line()
+
+Tab2:Toggle({
+    Title = "Loop Speed",
+    Default = false,
+    Callback = function(state)
+        getgenv().loopW = state
+        if state then
+            loopWConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                pcall(function()
+                    local player = game:GetService("Players").LocalPlayer
+                    if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+                        player.Character.Humanoid.WalkSpeed = getgenv().Walkspeed
+                    end
+                end)
+            end)
+        else
+            if loopWConnection then
+                loopWConnection:Disconnect()
+            end
         end
     end
-end)
+})
 
-Tab2:Toggle("Loop Fov", false, function(state)
-    getgenv().loopFOV = state
-    if state then
-        loopFOVConnection = game:GetService("RunService").Heartbeat:Connect(function()
-            pcall(function()
-                game:GetService("Workspace").Camera.FieldOfView = getgenv().FOV
+Tab2:Toggle({
+    Title = "Loop Fov",
+    Default = false,
+    Callback = function(state)
+        getgenv().loopFOV = state
+        if state then
+            loopFOVConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                pcall(function()
+                    game:GetService("Workspace").Camera.FieldOfView = getgenv().FOV
+                end)
             end)
-        end)
-    else
-        if loopFOVConnection then
-            loopFOVConnection:Disconnect()
+        else
+            if loopFOVConnection then
+                loopFOVConnection:Disconnect()
+            end
         end
     end
-end)
+})
 
-Tab3:Toggle("Auto Walk", false, function(t)
-    AutoWalk = t
-end)
+-- Main Tab Content
+Tab3:Toggle({
+    Title = "Auto Walk",
+    Default = false,
+    Callback = function(t)
+        AutoWalk = t
+    end
+})
 
-Tab3:Toggle("Player Safety", false, function(t)
-    PlayerSaftey = t
-end)
+Tab3:Toggle({
+    Title = "Player Safety",
+    Default = false,
+    Callback = function(t)
+        PlayerSafety = t
+    end
+})
 
-Tab3:line()
+Tab3:Line()
 
-Tab3:Slider("Player Safety Distance", 0, 50, 10, function(t)
-    PlayerSaftey_Distance = t
-end)
+Tab3:Slider({
+    Title = "Player Safety Distance",
+    Min = 0,
+    Max = 50,
+    Default = 10,
+    Callback = function(value)
+        PlayerSafety_Distance = value
+    end
+})
 
-Tab3:Slider("Auto Walk Distance X", -40, 40, 12, function(t)
-    AutoWalkDistanceX = t
-end)
+Tab3:Slider({
+    Title = "Auto Walk Distance X",
+    Min = -40,
+    Max = 40,
+    Default = 12,
+    Callback = function(value)
+        AutoWalkDistanceX = value
+    end
+})
 
-Tab3:Slider("Auto Walk Distance Z", -40, 40, 14, function(t)
-    AutoWalkDistanceZ = t
-end)
+Tab3:Slider({
+    Title = "Auto Walk Distance Z",
+    Min = -40,
+    Max = 40,
+    Default = 14,
+    Callback = function(value)
+        AutoWalkDistanceZ = value
+    end
+})
 
-Tab3:line()
+Tab3:Line()
 
-Tab3:Toggle("Auto Jump", false, function(t)
-    AutoDoubleJump = t
-end)
+Tab3:Toggle({
+    Title = "Auto Jump",
+    Default = false,
+    Callback = function(t)
+        AutoDoubleJump = t
+    end
+})
 
-Tab4:Toggle("Auto Parry AI", false, function(toggled)
-    resolve_parry_Remote()
-        
-    getgenv().aura_Enabled = toggled
-end)
+-- Combat Tab Content
+Tab4:Toggle({
+    Title = "Auto Parry AI",
+    Default = false,
+    Callback = function(toggled)
+        resolve_parry_Remote()
+        getgenv().aura_Enabled = toggled
+    end
+})
 
-Tab4:Toggle("Hit Effect AI", false, function(toggled)
-    getgenv().hit_effect_Enabled = toggled
-end)
+Tab4:Toggle({
+    Title = "Hit Effect AI",
+    Default = false,
+    Callback = function(toggled)
+        getgenv().hit_effect_Enabled = toggled
+    end
+})
 
-Tab4:Slider("Distance Parry AI", 1, 10, 3, function(value)
-end)
+Tab4:Slider({
+    Title = "Distance Parry AI",
+    Min = 1,
+    Max = 10,
+    Default = 3,
+    Callback = function(value)
+        print("Distance Parry AI set to", value)
+    end
+})
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -972,19 +1073,31 @@ Toggle.MouseButton1Click:Connect(function()
     end
 end)
 
-Tab4:Toggle("Manual Spam AI", false, function(Value)
-    Spam.Enabled = Value
-end)
+Tab4:Toggle({
+    Title = "Manual Spam AI",
+    Default = false,
+    Callback = function(Value)
+        Spam.Enabled = Value
+    end
+})
 
-Tab4:line()
+Tab4:Line()
 
-Tab4:Toggle("Trial AI", false, function(toggled)
-    getgenv().trail_Enabled = toggled
-end)
+Tab4:Toggle({
+    Title = "Trail AI",
+    Default = false,
+    Callback = function(toggled)
+        getgenv().trail_Enabled = toggled
+    end
+})
 
-Tab4:Toggle("Self Effect AI", false, function(toggled)
-    getgenv().self_effect_Enabled = toggled
-end)
+Tab4:Toggle({
+    Title = "Self Effect AI",
+    Default = false,
+    Callback = function(toggled)
+        getgenv().self_effect_Enabled = toggled
+    end
+})
 
 getgenv().ViewParryArea = false
 getgenv().ParryRange = 10
@@ -998,7 +1111,7 @@ local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local local_player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
-local Nurysium_Util = loadstring(game:HttpGet('https://raw.githubusercontent.com/SoyAdriYT/AstroX/main/Scripts/FuntionsBall.lua'))()
+local Nurysium_Util = loadstring(game:HttpGet('https://raw.githubusercontent.com/flezzpe/Nurysium/main/nurysium_helper.lua'))()
 local closest_Entity = nil
 local connection
 
@@ -1097,97 +1210,153 @@ local function ViewParryArea()
     end)
 end
 
-Tab4:Toggle("Visualizer Ball AI", false, function(toggled)
-    getgenv().ViewParryArea = toggled
-    if toggled then
-        ViewParryArea()
-    elseif connection then
-        connection:Disconnect()
-        local existingPart = workspace:FindFirstChild("Parry Range <Alexis.isback00 or AstroX>")
-        if existingPart then
-            existingPart:Destroy()
+Tab4:Toggle({
+    Title = "Visualizer Ball AI",
+    Default = false,
+    Callback = function(toggled)
+        getgenv().ViewParryArea = toggled
+        if toggled then
+            ViewParryArea()
+        elseif connection then
+            connection:Disconnect()
+            local existingPart = workspace:FindFirstChild("Parry Range <Alexis.isback00 or AstroX>")
+            if existingPart then
+                existingPart:Destroy()
+            end
         end
     end
-end)
+})
 
-Tab4:Dropdown("Select Sound", {"DC-15X", "Neverlose", "Minecraft", "MinecraftHit2", "Teamfortress Bonk", "Teamfortress Bell"}, function(selected)
-    if selected == "DC-15X" then
-        setHitSound('rbxassetid://936447863')
-    elseif selected == "Neverlose" then
-        setHitSound('rbxassetid://8679627751')
-    elseif selected == "Minecraft" then
-        setHitSound('rbxassetid://8766809464')
-    elseif selected == "MinecraftHit2" then
-        setHitSound('rbxassetid://8458185621')
-    elseif selected == "Teamfortress Bonk" then
-        setHitSound('rbxassetid://8255306220')
-    elseif selected == "Teamfortress Bell" then
-        setHitSound('rbxassetid://2868331684')
+Tab4:Dropdown({
+    Title = "Select Sound",
+    List = {"DC-15X", "Neverlose", "Minecraft", "MinecraftHit2", "Teamfortress Bonk", "Teamfortress Bell"},
+    Callback = function(selected)
+        if selected == "DC-15X" then
+            setHitSound('rbxassetid://936447863')
+        elseif selected == "Neverlose" then
+            setHitSound('rbxassetid://8679627751')
+        elseif selected == "Minecraft" then
+            setHitSound('rbxassetid://8766809464')
+        elseif selected == "MinecraftHit2" then
+            setHitSound('rbxassetid://8458185621')
+        elseif selected == "Teamfortress Bonk" then
+            setHitSound('rbxassetid://8255306220')
+        elseif selected == "Teamfortress Bell" then
+            setHitSound('rbxassetid://2868331684')
+        end
+        getgenv().hit_sound_Enabled = true
     end
-    getgenv().hit_sound_Enabled = true
-end)
+})
 
-Tab4:Toggle("Follow Ball AI", false, function(state)
-    getgenv().FB = state
-end)
+Tab4:Toggle({
+    Title = "Follow Ball AI",
+    Default = false,
+    Callback = function(state)
+        getgenv().FB = state
+    end
+})
 
-Tab4:line()
+Tab4:Line()
 
-Tab4:Toggle("Auto Spam AI", false, function(state)
-end)
+Tab4:Toggle({
+    Title = "Auto Spam AI",
+    Default = false,
+    Callback = function(state)
+    end
+})
 
-Tab4:Toggle("Anti Curve AI", false, function(state)
-end)
+Tab4:Toggle({
+    Title = "Anti Curve AI",
+    Default = false,
+    Callback = function(state)
+    end
+})
 
-Tab4:Toggle("Auto Curve AI", false, function(toggled)
-    getgenv().auto_curve_Enabled = toggled
-end)
+Tab4:Toggle({
+    Title = "Auto Curve AI",
+    Default = false,
+    Callback = function(toggled)
+        getgenv().auto_curve_Enabled = toggled
+    end
+})
 
-Tab4:line()
+Tab4:Line()
 
-Tab4:Dropdown("Parry Modes AI", {"Basic AI", "Basic High AI", "Medium AI", "Medium High AI", "Pro AI", "Pro High AI", "Extreme AI", "Impossible AI"}, function(selected)
-end)
+Tab4:Dropdown({
+    Title = "Parry Modes AI",
+    List = {"Basic AI", "Basic High AI", "Medium AI", "Medium High AI", "Pro AI", "Pro High AI", "Extreme AI", "Impossible AI"},
+    Callback = function(selected)
+    end
+})
 
-Tab4:Dropdown("Auto Spam Modes AI", {"Not Fast AI", "Fast AI", "Ultra Fast AI", "Mega Super Fast AI"}, function(selected)
-end)
+Tab4:Dropdown({
+    Title = "Auto Spam Modes AI",
+    List = {"Not Fast AI", "Fast AI", "Ultra Fast AI", "Mega Super Fast AI"},
+    Callback = function(selected)
+    end
+})
 
-Tab5:Toggle("Auto Buy Sword Box", false, function(state)
-    getgenv().ASC = state
-end)
+Tab5:Toggle({
+    Title = "Auto Buy Sword Box",
+    Default = false,
+    Callback = function(state)
+        getgenv().ASC = state
+    end
+})
 
-Tab5:Toggle("Auto Buy Explosion Box", false, function(state)
-    getgenv().AEC = state
-end)
+Tab5:Toggle({
+    Title = "Auto Buy Explosion Box",
+    Default = false,
+    Callback = function(state)
+        getgenv().AEC = state
+    end
+})
 
-Tab5:line()
+Tab5:Line()
 
-Tab5:Button("Buy Sword Box", function()
-    game:GetService("ReplicatedStorage").Remote.RemoteFunction:InvokeServer("PromptPurchaseCrate", workspace.Spawn.Crates.NormalSwordCrate)
-end)
+Tab5:Button({
+    Title = "Buy Sword Box",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remote.RemoteFunction:InvokeServer("PromptPurchaseCrate", workspace.Spawn.Crates.NormalSwordCrate)
+    end
+})
 
-Tab5:Button("Buy Explosion Box", function()
-    game:GetService("ReplicatedStorage").Remote.RemoteFunction:InvokeServer("PromptPurchaseCrate", workspace.Spawn.Crates.NormalExplosionCrate)
-end)
+Tab5:Button({
+    Title = "Buy Explosion Box",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remote.RemoteFunction:InvokeServer("PromptPurchaseCrate", workspace.Spawn.Crates.NormalExplosionCrate)
+    end
+})
 
 print("Blade Ball Anti Cheat Bypass Activated.")
 
-Tab7:Label("Anti Cheat : Disabled")
+Tab7:Label({
+    Text = "Anti Cheat : Disabled"
+})
 
-Tab7:line()
+Tab7:Line()
 
-Tab7:Button("Exit " .. Title1, function()
-    local gui = game:GetService("CoreGui"):FindFirstChild("woof")
-    if gui then
-        gui:Destroy()
+Tab7:Button({
+    Title = "Exit " .. Title1,
+    Callback = function()
+        local gui = game:GetService("CoreGui"):FindFirstChild("woof")
+        if gui then
+            gui:Destroy()
+        end
+
+        local player = game.Players.LocalPlayer
+        player:Kick("You have successfully exited " .. Title1 .. ".")
     end
+})
 
-    local player = game.Players.LocalPlayer
-    player:Kick("You have successfully exited " .. Title1 .. ".")
-end)
+Tab7:Toggle({
+    Title = "Night/Day",
+    Default = false,
+    Callback = function(toggled)
+        getgenv().night_mode_Enabled = toggled
+    end
+})
 
-Tab7:Toggle("Night/Day", false, function(toggled)
-    getgenv().night_mode_Enabled = toggled
-end)
 
 local currentFPSPosition = UDim2.new(0, 5, 1, -100)
 local currentPingPosition = UDim2.new(0, 5, 1, -130)
@@ -1327,16 +1496,20 @@ local function createGui()
     end)
 end
 
-Tab7:Toggle("View Fps and Ping", false, function(toggled)
-    isGuiActive = toggled
-    if toggled then
-        createGui()
-    else
-        if MainContainer then
-            MainContainer:Destroy()
+ Tab7:NewToggle({
+    Title = "View Fps and Ping",
+    Default = false,
+    Callback = function(toggled)
+        isGuiActive = toggled
+        if toggled then
+            createGui()
+        else
+            if MainContainer then
+                MainContainer:Destroy()
+            end
         end
-    end
-end)
+    end,
+})
 
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
     if isGuiActive then
@@ -1344,122 +1517,132 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
     end
 end)
 
-Tab7:line()
+Tab7:NewLine()
 
-Tab7:Dropdown("Anti Lag", {"Disable", "Anti Lag Basic", "Anti Lag Pro", "Anti Lag Extreme"}, function(Value)
-    local lighting = game:GetService("Lighting")
-    local workspace = game:GetService("Workspace")
+Tab7:NewDropdown({
+    Title = "Anti Lag",
+    Data = {"Disable", "Anti Lag Basic", "Anti Lag Pro", "Anti Lag Extreme"},
+    Default = "Disable",
+    Callback = function(Value)
+        local lighting = game:GetService("Lighting")
+        local workspace = game:GetService("Workspace")
 
-    if Value == "Disable" then
-        lighting.GlobalShadows = true
-        lighting.Brightness = 2
-        workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Automatic
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("Part") or v:IsA("MeshPart") then
-                v.Material = Enum.Material.SmoothPlastic
-                v.Reflectance = 0
-            elseif v:IsA("Decal") or v:IsA("Texture") then
-                v.Transparency = 0
-            elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = true
+        if Value == "Disable" then
+            lighting.GlobalShadows = true
+            lighting.Brightness = 2
+            workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Automatic
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Part") or v:IsA("MeshPart") then
+                    v.Material = Enum.Material.SmoothPlastic
+                    v.Reflectance = 0
+                elseif v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 0
+                elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = true
+                end
             end
-        end
-    elseif Value == "Anti Lag Basic" then
-        lighting.GlobalShadows = false
-        lighting.Brightness = 1
-        workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Low
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("Part") or v:IsA("MeshPart") then
-                v.Material = Enum.Material.SmoothPlastic
-                v.Reflectance = 0
-            elseif v:IsA("Decal") or v:IsA("Texture") then
-                v.Transparency = 0.5
-            elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = false
+        elseif Value == "Anti Lag Basic" then
+            lighting.GlobalShadows = false
+            lighting.Brightness = 1
+            workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Low
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Part") or v:IsA("MeshPart") then
+                    v.Material = Enum.Material.SmoothPlastic
+                    v.Reflectance = 0
+                elseif v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 0.5
+                elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = false
+                end
             end
-        end
-    elseif Value == "Anti Lag Pro" then
-        lighting.GlobalShadows = false
-        lighting.Brightness = 0.5
-        workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Low
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("Part") or v:IsA("MeshPart") then
-                v.Material = Enum.Material.SmoothPlastic
-                v.Reflectance = 0
-            elseif v:IsA("Decal") or v:IsA("Texture") then
-                v.Transparency = 0.7
-            elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = false
+        elseif Value == "Anti Lag Pro" then
+            lighting.GlobalShadows = false
+            lighting.Brightness = 0.5
+            workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Low
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Part") or v:IsA("MeshPart") then
+                    v.Material = Enum.Material.SmoothPlastic
+                    v.Reflectance = 0
+                elseif v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 0.7
+                elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = false
+                end
             end
-        end
-        lighting.FogEnd = 9e9
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
-    elseif Value == "Anti Lag Extreme" then
-        lighting.GlobalShadows = false
-        lighting.Brightness = 0
-        workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Low
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("Part") or v:IsA("MeshPart") then
-                v.Material = Enum.Material.SmoothPlastic
-                v.Reflectance = 0
-            elseif v:IsA("Decal") or v:IsA("Texture") then
-                v.Transparency = 1
-            elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = false
+            lighting.FogEnd = 9e9
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+        elseif Value == "Anti Lag Extreme" then
+            lighting.GlobalShadows = false
+            lighting.Brightness = 0
+            workspace.LevelOfDetail = Enum.LevelOfDetailSetting.Low
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Part") or v:IsA("MeshPart") then
+                    v.Material = Enum.Material.SmoothPlastic
+                    v.Reflectance = 0
+                elseif v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 1
+                elseif v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = false
+                end
             end
+            lighting.FogEnd = 9e9
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
         end
-        lighting.FogEnd = 9e9
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
-    end
-end)
+    end,
+})
 
-Tab7:Dropdown("Anti Crash", {"Disable", "Anti Crash Basic", "Anti Crash Pro", "Anti Crash Extreme"}, function(Value)
-    local lighting = game:GetService("Lighting")
+Tab7:NewDropdown({
+    Title = "Anti Crash",
+    Data = {"Disable", "Anti Crash Basic", "Anti Crash Pro", "Anti Crash Extreme"},
+    Default = "Disable",
+    Callback = function(Value)
+        local lighting = game:GetService("Lighting")
 
-    if Value == "Disable" then
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Automatic
-        lighting.GlobalShadows = true
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = true
-            elseif v:IsA("Explosion") then
-                v.BlastPressure = 1
-                v.BlastRadius = 1
+        if Value == "Disable" then
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Automatic
+            lighting.GlobalShadows = true
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = true
+                elseif v:IsA("Explosion") then
+                    v.BlastPressure = 1
+                    v.BlastRadius = 1
+                end
+            end
+        elseif Value == "Anti Crash Basic" then
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level04
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = false
+                elseif v:IsA("Explosion") then
+                    v.BlastPressure = 0.5
+                    v.BlastRadius = 0.5
+                end
+            end
+        elseif Value == "Anti Crash Pro" then
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level02
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = false
+                elseif v:IsA("Explosion") then
+                    v.BlastPressure = 0.25
+                    v.BlastRadius = 0.25
+                end
+            end
+        elseif Value == "Anti Crash Extreme" then
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+            lighting.GlobalShadows = false
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
+                    v.Enabled = false
+                elseif v:IsA("Explosion") then
+                    v.BlastPressure = 0
+                    v.BlastRadius = 0
+                end
             end
         end
-    elseif Value == "Anti Crash Basic" then
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Level04
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = false
-            elseif v:IsA("Explosion") then
-                v.BlastPressure = 0.5
-                v.BlastRadius = 0.5
-            end
-        end
-    elseif Value == "Anti Crash Pro" then
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Level02
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = false
-            elseif v:IsA("Explosion") then
-                v.BlastPressure = 0.25
-                v.BlastRadius = 0.25
-            end
-        end
-    elseif Value == "Anti Crash Extreme" then
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
-        lighting.GlobalShadows = false
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") then
-                v.Enabled = false
-            elseif v:IsA("Explosion") then
-                v.BlastPressure = 0
-                v.BlastRadius = 0
-            end
-        end
-    end
-end)
+    end,
+})
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/SoyAdriYT/AstroX/main/LibraryUI/UI_Notification.lua')))()
 
