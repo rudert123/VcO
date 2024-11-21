@@ -7,7 +7,7 @@ local RunService = game:GetService('RunService')
 
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 
-local Nurysium_Util = loadstring(game:HttpGet('https://raw.githubusercontent.com/SoyAdriYT/AstroX/main/Scripts/FuntionsBall.lua'))()
+local Nurysium_Util = loadstring(game:HttpGet('https://raw.githubusercontent.com/flezzpe/Nurysium/main/nurysium_helper.lua'))()
 
 local local_player = Players.LocalPlayer
 
